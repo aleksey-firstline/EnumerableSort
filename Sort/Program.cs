@@ -24,6 +24,12 @@ namespace Sort
         }
 
         [Benchmark]
+        public void SortWithSumForeach()
+        {
+            SortWithSumForeach(source);
+        }
+
+        [Benchmark]
         public void SortWithOneFor()
         {
             SortWithOneFor(source);
@@ -78,9 +84,27 @@ namespace Sort
                 yield return 1;
         }
 
+        public IEnumerable<byte> SortWithSumForeach(IEnumerable<byte> array)
+        {
+            int sumOf0 = 0;
+            int sumOf1 = 0;
+            
+            foreach(var item in array)
+            {
+                sumOf1 += item;
+                sumOf0++;
+            }
+
+            for (int i = 0; i < sumOf0 - sumOf1; i++)
+                yield return 0;
+
+            for (int i = 0; i < sumOf1; i++)
+                yield return 1;
+        }
+
         public IEnumerable<byte> SortWithOneFor(IEnumerable<byte> array)
         {
-            int s = 0;
+            int sum = 0;
             using (IEnumerator<byte> enumerator = array.GetEnumerator())
             {
                 while (enumerator.MoveNext())
@@ -88,11 +112,11 @@ namespace Sort
                     if (enumerator.Current == 0)
                         yield return 0;
                     else
-                        s++;
+                        sum++;
                 }
             }
 
-            for (int i = 0; i < s; i++)
+            for (int i = 0; i < sum; i++)
                 yield return 1;
         }
 
@@ -101,7 +125,7 @@ namespace Sort
             int sumOf0 = 0;
             int sumOf1 = 0;
 
-            Parallel.ForEach<byte>(array, x => {
+            Parallel.ForEach(array, x => {
                 if (x == 0)
                     Interlocked.Increment(ref sumOf0);
                 else
