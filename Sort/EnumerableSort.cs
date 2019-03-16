@@ -12,31 +12,36 @@ namespace Sort
         [Benchmark]
         public void SortWithIf()
         {
-            SortWithIf(source);
+            var res = SortWithIf(source);
+            foreach (var e in res);
         }
 
         [Benchmark]
         public void SortWithSum()
         {
-            SortWithSum(source);
+            var res = SortWithSum(source);
+            foreach (var e in res);
         }
 
         [Benchmark]
         public void SortWithSumForeach()
         {
-            SortWithSumForeach(source);
+            var res = SortWithSumForeach(source);
+            foreach (var e in res);
         }
 
         [Benchmark]
         public void SortWithOneFor()
         {
-            SortWithOneFor(source);
+            var res = SortWithOneFor(source);
+            foreach (var e in res);
         }
 
         [Benchmark]
         public void SortWithParallel()
         {
-            SortWithParallel(source);
+            var res = SortWithParallel(source);
+            foreach (var e in res);
         }
 
         public IEnumerable<byte> SortWithIf(IEnumerable<byte> array)
